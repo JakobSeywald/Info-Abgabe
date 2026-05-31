@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informatik-Abgabe-Generator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📝 Informatik-Abgabe-Generator</h1>
+            <p class="subtitle">Erstelle deine Abgaben automatisch als PDF</p>
+        </header>
+
+        <main>
+            <!-- Drag & Drop Zone -->
+            <section class="upload-section">
+                <div class="drop-zone" id="dropZone">
+                    <div class="drop-zone-content">
+                        <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="17 8 12 3 7 8"></polyline>
+                            <line x1="12" y1="3" x2="12" y2="15"></line>
+                        </svg>
+                        <h2>Dateien hier ablegen</h2>
+                        <p>oder <button type="button" class="file-input-trigger">klicke zum Hochladen</button></p>
+                        <input type="file" id="fileInput" multiple style="display: none;">
+                        <p class="supported-formats">Unterstützte Formate: .java, .uxf, .png, .jpg, .jpeg, .txt, .md</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Files Table -->
+            <section class="files-section" id="filesSection" style="display: none;">
+                <h2>Hochgeladene Dateien</h2>
+                <div class="table-wrapper">
+                    <table id="filesTable">
+                        <thead>
+                            <tr>
+                                <th>Dateiname</th>
+                                <th>Typ</th>
+                                <th>Aufgabe</th>
+                                <th>Teilaufgabe</th>
+                                <th>Reihenfolge</th>
+                                <th>Aktionen</th>
+                            </tr>
+                        </thead>
+                        <tbody id="filesTableBody">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="files-actions">
+                    <button id="clearFilesBtn" class="btn btn-secondary">Alle löschen</button>
+                </div>
+            </section>
+
+            <!-- PDF Controls -->
+            <section class="controls-section" id="controlsSection" style="display: none;">
+                <div class="controls-group">
+                    <div class="control-group">
+                        <label for="uebungsnummer">Übungsnummer (z.B. 1-3):</label>
+                        <input type="text" id="uebungsnummer" placeholder="z.B. 01" value="01">
+                    </div>
+                    <button id="generatePdfBtn" class="btn btn-primary">📄 PDF Vorschau generieren</button>
+                </div>
+            </section>
+
+            <!-- PDF Preview -->
+            <section class="preview-section" id="previewSection" style="display: none;">
+                <div class="preview-header">
+                    <h2>PDF-Vorschau</h2>
+                    <div class="preview-actions">
+                        <button id="downloadPdfBtn" class="btn btn-primary">⬇️ PDF herunterladen</button>
+                        <button id="createZipBtn" class="btn btn-success">📦 ZIP erstellen</button>
+                    </div>
+                </div>
+                <iframe id="pdfPreview" class="pdf-preview"></iframe>
+            </section>
+
+            <!-- Status Message -->
+            <div id="statusMessage" class="status-message"></div>
+        </main>
+
+        <footer>
+            <p>© 2026 Informatik-Abgabe-Generator | Datenschutz im Browser</p>
+        </footer>
+    </div>
+
+    <!-- Modal für Bearbeitung -->
+    <div id="editModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Datei bearbeiten</h3>
+                <button type="button" class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="editForm">
+                    <div class="form-group">
+                        <label for="editFilename">Dateiname:</label>
+                        <input type="text" id="editFilename" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="editAufgabe">Aufgabe:</label>
+                        <input type="number" id="editAufgabe" min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editTeilaufgabe">Teilaufgabe:</label>
+                        <input type="text" id="editTeilaufgabe" placeholder="leer für keine">
+                    </div>
+                    <div class="form-group">
+                        <label for="editReihenfolge">Reihenfolge:</label>
+                        <input type="number" id="editReihenfolge" min="1" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary modal-close">Abbrechen</button>
+                <button type="button" class="btn btn-primary" id="saveEditBtn">Speichern</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
